@@ -55,7 +55,7 @@ trait RestService {
 			}
 		}
 	} ~
-  path("schedule" / """[\w[0-9]-_]+""".r) { id =>
+  path("schedule" ) {
 		get{
 			complete {
         val scheduler = new Scheduler()

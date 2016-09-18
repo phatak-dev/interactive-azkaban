@@ -3,9 +3,9 @@ package com.madhukaraphatak.azkaban.schedule
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import com.madhukaraphatak.azkaban.AzkabanClient
-import com.madhukaraphatak.azkaban.AzkabanModels.{CreateSessionRequest, UploadProjectZipRequest}
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.madhukaraphatak.azkaban.AzkabanModels.{CreateSessionRequest, RunFlowRequest, ScheduleFlowRequest, UploadProjectZipRequest}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Await
 
 /**
@@ -19,8 +19,8 @@ class Scheduler {
     val userName = "azkaban"
     val password = "azkaban"
     val project =  "test"
-    val flow = "test1"
-    val zipFilePath = "src/main/resources/azkaban-jobs.zip"
+    val flow = "restserviceflow"
+    val zipFilePath = "/tmp/azkaban/azkaban-jobs.zip"
 
     val azkabanClient = new AzkabanClient(azkabanUrl)
 
@@ -33,5 +33,11 @@ class Scheduler {
 
     import scala.concurrent.duration._
     Await.result(fileUploadResponse, 3 minute)
+
+    //azkabanClient.runFlow(RunFlowRequest(project,flow))(azkabanSession).get
+
+    azkabanClient.scheduleFlow(
+      ScheduleFlowRequest(project,flow,"10,30,pm,PDT","11/29/2016"))(azkabanSession).get
+
   }
 }
