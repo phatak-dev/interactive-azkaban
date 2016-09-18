@@ -1,0 +1,4 @@
+type=javaprocess
+java.class=com.madhukaraphatak.scheduling.SimpleFlow
+classpath=./lib/*
+main.args="123"

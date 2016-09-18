@@ -1,0 +1,4 @@
+type=javaprocess
+java.class=com.madhukaraphatak.scheduling.RestServiceFlow
+classpath=./lib/*
+main.args="123"

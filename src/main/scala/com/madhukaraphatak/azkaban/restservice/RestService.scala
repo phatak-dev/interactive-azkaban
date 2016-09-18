@@ -7,9 +7,11 @@ import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.madhukaraphatak.azkaban.Models._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
+import com.madhukaraphatak.azkaban.schedule.Scheduler
 import spray.json.JsArray
+
 import scala.collection.JavaConverters._
-import spray.json.{JsArray, pimpAny, DefaultJsonProtocol}
+import spray.json.{DefaultJsonProtocol, JsArray, pimpAny}
 import spray.json.DefaultJsonProtocol._
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql._
@@ -50,6 +52,15 @@ trait RestService {
 			complete {
 				val dataset = datasetMap.get(id)
 				dataset.take(10).map(row => row.toString())
+			}
+		}
+	} ~
+  path("schedule" / """[\w[0-9]-_]+""".r) { id =>
+		get{
+			complete {
+        val scheduler = new Scheduler()
+        scheduler.schedule(system,materializer)
+        "scheduled"
 			}
 		}
 	}
