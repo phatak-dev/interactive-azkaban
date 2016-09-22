@@ -4,3 +4,6 @@
 target/
 dependency-reduced-pom.xml
 *.swp
+*.zip
+azkaban-upload
+*.DS_Store

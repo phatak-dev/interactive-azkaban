@@ -1,0 +1,20 @@
+## Get Session Id
+
+curl -k -X POST --data "action=login&username=azkaban&password=azkaban" http://localhost:8080
+
+## Create a project
+
+curl -k -X POST --data "session.id=f38bcf43-d8b0-4eff-8ae2-f381d5b3b757&name=test2&description=11" http://localhost:8081/manager?action=create
+
+
+## Upload file for project
+
+curl -k -i -H "Content-Type: multipart/mixed" -X POST --form 'session.id=f38bcf43-d8b0-4eff-8ae2-f381d5b3b757' \
+--form 'ajax=upload' --form 'file=@azkaban-upload.zip;type=application/zip' \
+--form 'project=test2' http://localhost:8081/manager
+
+## Run flow
+
+curl -k --get --data 'session.id=f38bcf43-d8b0-4eff-8ae2-f381d5b3b757' \
+--data 'ajax=executeFlow' --data 'project=test2' \
+--data 'flow=simpleflow' http://localhost:8081/executor
